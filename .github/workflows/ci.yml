@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI with Maven and Cucumber Report
 
 on:
   push:
@@ -16,27 +16,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      # 2️⃣ Set up Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and run tests
-        run: mvn clean verify -DskipTests=false
+      # 3️⃣ Build and run tests
+      - name: Build with Maven and run tests
+        run: mvn clean verify
 
-      # Generate Cucumber HTML report (if not auto-generated)
-      - name: Generate Cucumber report
+      # 4️⃣ Generate Cucumber annotations in GitHub checks
+      - name: Publish Cucumber Report Annotations
         uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           path: "**/cucumber.json"
+          check-status-on-error: failure
+          check-status-on-undefined: success
+          check-status-on-pending: success
+          annotation-status-on-error: failure
+          show-number-of-error-on-check-title: true
+          name: Cucumber report
 
-      # Publish HTML report to GitHub Pages
-      - name: Deploy report page to GitHub Pages
+      # 5️⃣ Deploy HTML report to GitHub Pages
+      - name: Deploy Cucumber HTML Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/cucumber-reports
+          # Optional: to store reports in subfolder
+          # destination_dir: reports/latest
+
+      # 6️⃣ Add PR comment with report link
+      - name: Post Cucumber Report URL as PR comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            ✅ **Cucumber Test Report Available!**
+            📊 [View HTML Report Here](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/)
