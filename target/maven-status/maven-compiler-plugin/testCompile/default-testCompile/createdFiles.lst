@@ -1,0 +1,7 @@
+com\testautomation\pages\LoginPage.class
+com\testautomation\utils\ConfigReader.class
+com\testautomation\steps\LoginSteps.class
+com\testautomation\utils\BaseClass.class
+com\testautomation\utils\ReportGenerator.class
+com\testautomation\runners\TestRunner.class
+com\testautomation\steps\Hooks.class

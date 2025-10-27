@@ -1,0 +1,216 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "line": 3,
+        "name": "",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 1846400,
+              "status": "passed"
+            },
+            "line": 4,
+            "name": "the login page is opened",
+            "match": {
+              "location": "com.testautomation.steps.LoginSteps.the_login_page_is_opened()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2025-10-27T07:31:04.323Z",
+        "before": [
+          {
+            "result": {
+              "duration": 7192637400,
+              "status": "passed"
+            },
+            "match": {
+              "location": "com.testautomation.steps.Hooks.beforeScenario()"
+            }
+          }
+        ],
+        "line": 13,
+        "name": "Successful and unsuccessful login attempts on the-internet.herokuapp.com",
+        "description": "",
+        "id": "login-functionality;successful-and-unsuccessful-login-attempts-on-the-internet.herokuapp.com;;2",
+        "after": [
+          {
+            "result": {
+              "duration": 316860800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "com.testautomation.steps.Hooks.afterScenario()"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 1138081200,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "the user attempts to login with username \"tomsmith\" and password \"SuperSecretPassword!\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"tomsmith\"",
+                  "offset": 41
+                },
+                {
+                  "val": "\"SuperSecretPassword!\"",
+                  "offset": 65
+                }
+              ],
+              "location": "com.testautomation.steps.LoginSteps.the_user_attempts_to_login_with_username_and_password(java.lang.String,java.lang.String)"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 87152100,
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "the login should be \"success\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"success\"",
+                  "offset": 20
+                }
+              ],
+              "location": "com.testautomation.steps.LoginSteps.the_login_should_be(java.lang.String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke"
+          },
+          {
+            "name": "@login"
+          }
+        ]
+      },
+      {
+        "line": 3,
+        "name": "",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "status": "passed"
+            },
+            "line": 4,
+            "name": "the login page is opened",
+            "match": {
+              "location": "com.testautomation.steps.LoginSteps.the_login_page_is_opened()"
+            },
+            "keyword": "Given "
+          }
+        ]
+      },
+      {
+        "start_timestamp": "2025-10-27T07:31:13.148Z",
+        "before": [
+          {
+            "result": {
+              "duration": 5308577200,
+              "status": "passed"
+            },
+            "match": {
+              "location": "com.testautomation.steps.Hooks.beforeScenario()"
+            }
+          }
+        ],
+        "line": 14,
+        "name": "Successful and unsuccessful login attempts on the-internet.herokuapp.com",
+        "description": "",
+        "id": "login-functionality;successful-and-unsuccessful-login-attempts-on-the-internet.herokuapp.com;;3",
+        "after": [
+          {
+            "result": {
+              "duration": 345163500,
+              "status": "passed"
+            },
+            "match": {
+              "location": "com.testautomation.steps.Hooks.afterScenario()"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 1960713500,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "the user attempts to login with username \"invalidUser\" and password \"badPassword\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"invalidUser\"",
+                  "offset": 41
+                },
+                {
+                  "val": "\"badPassword\"",
+                  "offset": 68
+                }
+              ],
+              "location": "com.testautomation.steps.LoginSteps.the_user_attempts_to_login_with_username_and_password(java.lang.String,java.lang.String)"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 81945800,
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "the login should be \"failure\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"failure\"",
+                  "offset": 20
+                }
+              ],
+              "location": "com.testautomation.steps.LoginSteps.the_login_should_be(java.lang.String)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@smoke"
+          },
+          {
+            "name": "@login"
+          }
+        ]
+      }
+    ],
+    "name": "Login functionality",
+    "description": "",
+    "id": "login-functionality",
+    "keyword": "Feature",
+    "uri": "file:src/test/resources/features/login.feature",
+    "tags": []
+  }
+]
