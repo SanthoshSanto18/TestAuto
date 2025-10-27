@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MAVEN_OPTS: -Xmx2g
+
     steps:
+      # 🧱 Step 1: Checkout source code
       - name: Checkout
         uses: actions/checkout@v4
 
+      # ☕ Step 2: Setup JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -22,30 +25,60 @@ jobs:
           java-version: '17'
           cache: 'maven'
 
+      # 🧰 Step 3: Check Chrome version
       - name: Display Chrome version
         run: google-chrome --version || true
 
+      # 🧪 Step 4: Run Tests (headless)
       - name: Run tests (headless)
         run: mvn test -B -Dheadless=true
 
+      # 📊 Step 5: Generate Masterthought (Cucumber HTML) Report
       - name: Generate Masterthought report
         run: |
           mvn -q -DskipTests=true exec:java -Dexec.mainClass="com.testautomation.utils.ReportGenerator" || true
 
+      # 📦 Step 6: Upload all reports as artifacts (for download)
       - name: Upload cucumber reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-reports
           path: target/cucumber-reports
 
       - name: Upload surefire reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: surefire-reports
           path: target/surefire-reports
 
       - name: Upload masterthought html (if exists)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: masterthought-report
           path: target/cucumber-reports
+
+  # 🚀 Step 7: Publish HTML report to GitHub Pages
+  publish-report:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()  # ensures report is published even if tests fail
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: masterthought-report
+          path: ./report
+
+      - name: Deploy Cucumber HTML Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report
+          publish_branch: gh-pages
+
