@@ -1,8 +1,4 @@
-name: CI
-
-# ✅ Give write permission so workflow can push to gh-pages
-permissions:
-  contents: write
+name: Java CI with Maven
 
 on:
   push:
@@ -10,43 +6,35 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write   # needed to push to gh-pages
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      MAVEN_OPTS: -Xmx2g
 
     steps:
-      # Step 1: Checkout
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # Step 2: Set up Java
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
           java-version: '17'
-          cache: maven
+          distribution: 'temurin'
 
-      # Step 3: Build and Run Tests
-      - name: Run Tests (headless)
-        run: mvn test -B -Dheadless=true
+      - name: Build and run tests
+        run: mvn clean verify -DskipTests=false
 
-      # Step 4: Generate Cucumber Report
-      - name: Generate Cucumber HTML Report
-        run: mvn verify -DskipTests
-
-      # Step 5: Upload Cucumber Reports as Artifact (optional but useful)
-      - name: Upload cucumber reports
-        uses: actions/upload-artifact@v4
+      # Generate Cucumber HTML report (if not auto-generated)
+      - name: Generate Cucumber report
+        uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
-          name: cucumber-reports
-          path: target/cucumber-reports
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: "**/cucumber.json"
 
-      # Step 6: 🚀 Deploy Report to GitHub Pages
-      - name: Deploy Cucumber HTML Report to GitHub Pages
+      # Publish HTML report to GitHub Pages
+      - name: Deploy report page to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.ACTIONS_DEPLOY_TOKEN }}  # ✅ Your PAT secret
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./target/cucumber-reports
